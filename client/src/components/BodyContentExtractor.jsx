@@ -80,10 +80,12 @@ const styles = {
   },
   subHeading: {
     marginBottom: '10px',
+    color:'#fff',
   },
   content: {
     whiteSpace: 'pre-wrap',
     overflowWrap: 'break-word',
+    color:'#fff',
     
   },
 };
