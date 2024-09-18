@@ -107,7 +107,7 @@ export function useXmlGenerator() {
         <description>${item.description}</description>
         <content:encoded><![CDATA[${item.content}]]></content:encoded>
         <excerpt:encoded><![CDATA[${item.excerpt}]]></excerpt:encoded>
-        <wp:post_id>${item.post_id}</wp:post_id>
+        <wp:post_id>${index + 1}</wp:post_id>
         <wp:post_date>${item.post_date}</wp:post_date>
         <wp:post_date_gmt>${item.post_date_gmt}</wp:post_date_gmt>
         <wp:comment_status>${item.comment_status}</wp:comment_status>
