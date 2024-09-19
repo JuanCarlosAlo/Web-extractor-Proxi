@@ -15,7 +15,7 @@ export function useHtmlExtractor() {
       const response = await axios.post('https://web-extractor-proxi-production.up.railway.app/extract', { url });
       setBodyContent(response.data);
     } catch (err) {
-      setError('Error extracting body content');
+      setError('Error conecting to the server');
       console.error(err);
     } finally {
       setLoading(false);
