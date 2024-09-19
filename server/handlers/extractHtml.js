@@ -4,8 +4,10 @@ const beautify = require('js-beautify').html;
 
 async function extractHtml(url) {
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: true, // Puedes mantener esto como true o 'new'
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
   });
+  
   const page = await browser.newPage();
 
   await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
@@ -14,7 +16,6 @@ async function extractHtml(url) {
   await browser.close();
 
   const filteredHtml = filterHtml(html, url);
-
   const formattedHtml = beautify(filteredHtml, { indent_size: 2, space_in_empty_paren: true });
 
   return formattedHtml;
@@ -26,7 +27,6 @@ function filterHtml(html, baseUrl) {
 
   const stopClasses = ['contacto', 'mapas', 'banner', 'footer'];
 
-  // Helper function to check if a section should be skipped
   const shouldSkipSection = (section) => {
     const classList = Array.from(section.classList);
     return stopClasses.some(cls => classList.includes(cls));
@@ -34,7 +34,6 @@ function filterHtml(html, baseUrl) {
 
   let htmlContent = '';
 
-  // Filtra todas las secciones del body
   const sections = document.querySelectorAll('section');
   sections.forEach(section => {
     if (!shouldSkipSection(section)) {
@@ -44,20 +43,15 @@ function filterHtml(html, baseUrl) {
 
   const baseDomain = new URL(baseUrl).origin;
 
-  // Reemplaza URLs absolutas en background-image correctamente
   htmlContent = htmlContent.replace(/background-image:\s*url\(["']?(https?:\/\/[^"'\)]*)["']?\)/g, (match, p1) => {
     return `background-image: url("${p1.replace(baseDomain, '/wp-content')}")`;
   });
 
-  // Reemplaza URLs absolutas en href y src
   htmlContent = htmlContent.replace(new RegExp(baseDomain, 'g'), '/wp-content');
-  
-  // Corrige URLs relativas en href y src que comiencen con /
   htmlContent = htmlContent.replace(/(href|src)="\/([^"]+)"/g, (match, attr, url) => {
     return `${attr}="${baseDomain}/${url}"`;
   });
 
-  // Corrige URLs dentro de estilos CSS
   htmlContent = htmlContent.replace(/url\(&quot;/g, 'url("');
   htmlContent = htmlContent.replace(/&quot;\)/g, '")');
   htmlContent = htmlContent.replace(/url\(&#34;/g, 'url("');
