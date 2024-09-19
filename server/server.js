@@ -26,5 +26,5 @@ app.post('/extract', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at https://web-extractor-proxi-production.up.railway.app/`);
 });
