@@ -4,16 +4,23 @@ const bodyParser = require('body-parser');
 const { extractHtml } = require('./handlers/extractHtml'); // Import using CommonJS syntax
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
+// Configuración de CORS
 app.use(cors({
-    origin: "https://web-extractor-proxi-production.up.railway.app/",
-    methods: ["GET", "POST"],
+    origin: 'http://localhost:3000', // Cambia esto por el dominio de tu frontend
+    methods: ["GET", "POST", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+// Manejar solicitudes preflight (OPTIONS)
+app.options('*', cors());
+
+// Middleware para parsear el body
 app.use(bodyParser.json());
 
+// Ruta para extraer HTML
 app.post('/extract', async (req, res) => {
   const { url } = req.body;
   try {
@@ -25,6 +32,7 @@ app.post('/extract', async (req, res) => {
   }
 });
 
+// Iniciar el servidor en el puerto asignado
 app.listen(port, () => {
-  console.log(`Server running at https://web-extractor-proxi-production.up.railway.app/`);
+  console.log(`Server running on port ${port}`);
 });
