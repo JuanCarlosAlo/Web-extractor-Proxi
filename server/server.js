@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: "*",
+    origin: "https://web-extractor-proxi-production.up.railway.app/",
     methods: ["GET", "POST"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
