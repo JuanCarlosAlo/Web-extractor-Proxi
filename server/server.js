@@ -17,14 +17,14 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.post('/extract', async (req, res) => {
-    const { url } = req.body;
-    try {
-        const html = await extractHtml(url);
-        res.send(html);
-    } catch (error) {
-        console.error('Error during HTML extraction:', error);
-        res.status(500).send('Error during HTML extraction');
-    }
+  const { url } = req.body;
+  try {
+    const html = await extractHtml(url);
+    res.send(html);
+  } catch (error) {
+    console.error('Error during HTML extraction:', error);
+    res.status(500).send(`Error during HTML extraction: ${error.message || error}`);
+  }
 });
 
 app.listen(port, () => {
