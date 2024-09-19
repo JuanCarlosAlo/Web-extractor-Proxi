@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "postinstall": "puppeteer install",
     "start": "node server.js"
   },
   "dependencies": {
+    "axios": "^1.5.0",
     "body-parser": "^1.20.2",
+    "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "js-beautify": "^1.15.1",
     "jsdom": "^25.0.0",
-    "puppeteer": "^23.2.0"
+    "puppeteer": "^23.4.0"
   }
 }
