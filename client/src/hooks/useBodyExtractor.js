@@ -12,7 +12,7 @@ export function useHtmlExtractor() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/extract', { url });
+      const response = await axios.post('https://web-extractor-proxi-production.up.railway.app/extract', { url });
       setBodyContent(response.data);
     } catch (err) {
       setError('Error extracting body content');
