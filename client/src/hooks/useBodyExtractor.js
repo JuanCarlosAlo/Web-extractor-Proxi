@@ -12,10 +12,19 @@ export function useHtmlExtractor() {
     setError('');
 
     try {
-      const response = await axios.post('https://web-extractor-proxi-production.up.railway.app/extract', { url });
+      const response = await axios.post(
+        'https://web-extractor-proxi-production.up.railway.app/extract',
+        { url },
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+        }
+      );
       setBodyContent(response.data);
     } catch (err) {
-      setError('Error conecting to the server');
+      setError('Error connecting to the server');
       console.error(err);
     } finally {
       setLoading(false);
