@@ -13,7 +13,7 @@ export function useHtmlExtractor() {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/extract',
+        'https://web-extractor-proxi-production.up.railway.app//extract',
         { url },
         {
           headers: {
