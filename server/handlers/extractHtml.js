@@ -7,7 +7,7 @@ async function extractHtml(url) {
     try {
         // Conexión a la instancia de Browserless en Railway
         browser = await puppeteer.connect({
-            browserWSEndpoint: 'wss://browserless-production-e893.up.railway.app?token=QspLDpEcp8lmujdfa6d80878f005b406209e9c25e2' // URL de tu instancia de Browserless
+            browserWSEndpoint: 'ws://https://browserless-production-e893.up.railway.app/?token=QspLDpEcp8lmujdfa6d80878f005b406209e9c25e2' // URL de tu instancia de Browserless
         });
 
         const page = await browser.newPage();
