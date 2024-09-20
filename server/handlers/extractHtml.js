@@ -5,16 +5,14 @@ const beautify = require('js-beautify').html;
 async function extractHtml(url) {
     let browser;
     try {
-        // Conexión a la instancia de Browserless en Railway
-        browser = await puppeteer.connect({
-            browserWSEndpoint: 'ws://https://browserless-production-e893.up.railway.app/?token=QspLDpEcp8lmujdfa6d80878f005b406209e9c25e2' // URL de tu instancia de Browserless
+        // Sustituye 'YOUR_TOKEN_HERE' por el token real
+        const browser = await puppeteer.connect({
+            browserWSEndpoint: 'wss://production-sfo.browserless.io?token=QspLDpEcp8lmujdfa6d80878f005b406209e9c25e2'
         });
 
         const page = await browser.newPage();
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
         const html = await page.content();
-
-        // Extraer las secciones del HTML
         const extractedHtml = extractSections(html, url);
         return beautify(extractedHtml, { indent_size: 2, space_in_empty_paren: true });
 
@@ -22,7 +20,6 @@ async function extractHtml(url) {
         console.error('Error during HTML extraction:', error);
         throw new Error('Error during HTML extraction');
     } finally {
-        // Cerrar el navegador solo si se abrió
         if (browser) {
             await browser.close();
         }
@@ -34,8 +31,6 @@ function extractSections(html, baseUrl) {
     const { document } = dom.window;
 
     let htmlContent = '';
-
-    // Obtener todas las secciones <section> del documento
     const allSections = document.querySelectorAll('section');
     allSections.forEach(section => {
         htmlContent += section.outerHTML;
