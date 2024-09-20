@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const { JSDOM } = require('jsdom');
 const beautify = require('js-beautify').html;
 
