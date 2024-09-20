@@ -5,8 +5,7 @@ const beautify = require('js-beautify').html;
 async function extractHtml(url) {
     let browser;
     try {
-        // Sustituye 'YOUR_TOKEN_HERE' por el token real
-        const browser = await puppeteer.connect({
+        browser = await puppeteer.connect({
             browserWSEndpoint: 'wss://production-sfo.browserless.io?token=QspLDpEcp8lmujdfa6d80878f005b406209e9c25e2'
         });
 
@@ -31,10 +30,27 @@ function extractSections(html, baseUrl) {
     const { document } = dom.window;
 
     let htmlContent = '';
-    const allSections = document.querySelectorAll('section');
-    allSections.forEach(section => {
-        htmlContent += section.outerHTML;
-    });
+    const mainContent = document.querySelector('.main-content');
+
+    if (mainContent) {
+        // Extraer secciones solo dentro de main-content
+        const allSections = mainContent.querySelectorAll('section');
+        for (const section of allSections) {
+            if (section.classList.contains('contacto')) {
+                break; // Detenerse si se encuentra una sección con la clase "contacto"
+            }
+            htmlContent += section.outerHTML;
+        }
+    } else {
+        // Extraer todas las secciones si main-content no existe
+        const allSections = document.querySelectorAll('section');
+        for (const section of allSections) {
+            if (section.classList.contains('contacto')) {
+                break; // Detenerse si se encuentra una sección con la clase "contacto"
+            }
+            htmlContent += section.outerHTML;
+        }
+    }
 
     const baseDomain = new URL(baseUrl).origin;
     return htmlContent.replace(new RegExp(baseDomain, 'g'), '/wp-content')
